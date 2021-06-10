@@ -1,0 +1,7 @@
+steps:
+- plugins:
+    - peaudecastor/boost-security-scanner#v2:
+        additional_args: --log-level=DEBUG
+        docker_create_args: --network=host
+  agents:
+    queue: “checks-runner-prod”
