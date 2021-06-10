@@ -1,4 +1,5 @@
 # A sample Guardfile
+
 # More info at https://github.com/guard/guard#readme
 
 guard 'brakeman', :run_on_start => true do
