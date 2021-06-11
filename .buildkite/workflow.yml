@@ -3,7 +3,7 @@ steps:
 # Test CLI
 - command:
    - curl https://assets.boostsecurity.dev/boost/cli/e509a8b/boost.sh
-   - ./boost scan version
+   - ./boost version
 
 # # Run Boost Native Scanner (handles Default & PR Scan Workflows)
 # - plugins: Run Boost Scan - Boost Native Scanner
