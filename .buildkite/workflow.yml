@@ -1,7 +1,42 @@
 steps:
-- plugins:
-    - peaudecastor/boost-security-scanner#v2:
-        additional_args: --log-level=DEBUG
-        docker_create_args: --network=host
-  agents:
-    queue: “checks-runner-prod”
+
+# Test CLI
+- command:
+   - curl https://assets.boostsecurity.dev/boost/cli/e509a8b/boost.sh
+   - ./boost scan version
+
+# # Run Boost Native Scanner (handles Default & PR Scan Workflows)
+# - plugins: Run Boost Scan - Boost Native Scanner
+#     - peaudecastor/boost-security-scanner#v2:
+#         additional_args: --log-level=DEBUG --partial
+#         docker_create_args: --network=host
+#   agents:
+#     queue: “checks-runner-prod”
+
+# # Run Brakeman Default Scan Workflow on a merge to default branch
+# - command:
+#    - curl https://assets.boostsecurity.dev/boost/cli/e509a8b/boost.sh
+#    - echo 'curl DOWNLOAD BRAKEMAN'
+#    - ./boost scan ci --branch=${BUILDKITE_BRANCH} --project boost-e2e-stage-ci-buildkite/test-cli --partial --sarif-cmd “brakeman --sarif"
+#   label: Run Boost Default Scan - Brakeman Scanner
+#   if: build.branch == "${BUILDKITE_PIPELINE_DEFAULT_BRANCH}"
+
+# - command:
+#   - curl https://assets.boostsecurity.dev/boost/cli/e509a8b/boost.sh
+#   - ./boost.sh scan complete --branch=${BUILDKITE_BRANCH} --project boost-e2e-stage-ci-buildkite/test-cli
+#   label: Run Boost Main Complete
+#   if: build.branch == "${BUILDKITE_PIPELINE_DEFAULT_BRANCH}"
+
+# # Run Brakeman PR Scan Workflow on a branch with a PR open
+# - command:
+#   - curl https://assets.boostsecurity.dev/boost/cli/e509a8b/boost.sh
+#   - echo 'curl DOWNLOAD_BRAKEMAN'
+#   - ./boost scan ci --branch=${BUILDKITE_BRANCH} --project boost-e2e-stage-ci-buildkite/test-cli --partial --sarif-cmd “brakeman --sarif” --pull-request ${BUILDKITE_PULL_REQUEST} HEAD..${BUILDKITE_PULL_REQUEST_BASE_BRANCH}
+#   label: Run Boost PR Scan - Brakeman Scanner
+#   if: build.pull_request.id
+
+# - command:
+#   - curl https://assets.boostsecurity.dev/boost/cli/e509a8b/boost.sh
+#   - ./boost.sh scan complete --branch=${BUILDKITE_BRANCH} --project boost-e2e-stage-ci-buildkite/test-cli
+#   label: Run Boost PR Complete
+#   if: build.pull_request.id
